@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@PreAuthorize("denyAll()")
 public class PostController {
 
     private final IPostService postService;
@@ -22,12 +23,14 @@ public class PostController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAnyRole('ADMIN','AUTHOR')")
     public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestDTO requestDTO) {
         PostResponseDTO created = postService.save(requestDTO);
         return ResponseEntity.created(URI.create("/api/posts/" + created.id())).body(created);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','AUTHOR','USER')")
     public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
         return postService.findById(id)
                 .map(ResponseEntity::ok)
@@ -35,11 +38,13 @@ public class PostController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','AUTHOR','USER')")
     public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
         return ResponseEntity.ok(postService.findAll());
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         if (!postService.deleteById(id)) {
             return ResponseEntity.notFound().build();
@@ -48,6 +53,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','AUTHOR')")
     public ResponseEntity<PostResponseDTO> updatePost(@PathVariable Long id, @RequestBody PostRequestDTO requestDTO) {
         return postService.update(id, requestDTO)
                 .map(ResponseEntity::ok)

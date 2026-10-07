@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/authors")
+@PreAuthorize("denyAll()")
 public class AuthorController {
 
     private final IAuthorService authorService;
