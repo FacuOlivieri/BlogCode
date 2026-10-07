@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlogCode - Administrador</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="pagina-larga">
+<main class="tarjeta tarjeta-ancha">
+    <header class="encabezado">
+        <div>
+            <span class="insignia">ADMIN</span>
+            <h1>Administrador</h1>
+            <p>Estás en la vista de Administrador.</p>
+            <p>Sesión iniciada como <strong th:text="${usuario}">usuario</strong></p>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="boton boton-secundario">Cerrar sesión</button>
+        </form>
+    </header>
+
+    <section>
+        <h2>Usuarios</h2>
+        <p class="mensaje info" th:if="${#lists.isEmpty(usuarios)}">No hay usuarios cargados.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(usuarios)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Usuario</th><th>Habilitado</th><th>Roles</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.id}">1</td>
+                    <td th:text="${u.username}">usuario</td>
+                    <td th:text="${u.enabled} ? 'Sí' : 'No'">Sí</td>
+                    <td th:text="${#strings.setJoin(u.roles, ', ')}">ADMIN</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Roles</h2>
+        <p class="mensaje info" th:if="${#lists.isEmpty(roles)}">No hay roles cargados.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(roles)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Rol</th><th>Permisos</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${roles}">
+                    <td th:text="${r.id}">1</td>
+                    <td th:text="${r.role}">ADMIN</td>
+                    <td th:text="${#strings.setJoin(r.permissions, ', ')}">READ</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Permisos</h2>
+        <p class="mensaje info" th:if="${#lists.isEmpty(permisos)}">No hay permisos cargados.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(permisos)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Nombre</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${permisos}">
+                    <td th:text="${p.id}">1</td>
+                    <td th:text="${p.permissionName}">READ</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

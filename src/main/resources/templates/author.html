@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlogCode - Autor</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+<main class="tarjeta">
+    <span class="insignia">AUTHOR</span>
+    <h1>Autor</h1>
+    <p>Estás en la vista de Autor.</p>
+    <p>Sesión iniciada como <strong th:text="${usuario}">usuario</strong></p>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="boton">Cerrar sesión</button>
+    </form>
+</main>
+</body>
+</html>

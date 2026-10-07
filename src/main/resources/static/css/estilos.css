@@ -1,0 +1,149 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f1f3f6;
+    color: #1f2933;
+    line-height: 1.5;
+}
+
+.tarjeta {
+    width: 100%;
+    max-width: 380px;
+    padding: 32px 28px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 1.5rem;
+}
+
+label {
+    display: block;
+    margin: 16px 0 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #cbd2d9;
+    border-radius: 8px;
+}
+
+input:focus {
+    outline: 2px solid #2563eb;
+    border-color: #2563eb;
+}
+
+.boton {
+    width: 100%;
+    margin-top: 24px;
+    padding: 11px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #2563eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background: #1d4ed8;
+}
+
+.mensaje {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.error { background: #fdecec; color: #b42318; }
+.info { background: #e8f6ee; color: #1b7a43; }
+
+.insignia {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2563eb;
+    background: #e6efff;
+    border-radius: 999px;
+}
+/* Vista de administrador */
+body.pagina-larga {
+    align-items: flex-start;
+    padding: 32px 16px;
+}
+
+.tarjeta-ancha {
+    max-width: 960px;
+}
+
+.encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.boton-secundario {
+    width: auto;
+    margin-top: 0;
+    padding: 9px 18px;
+}
+
+section h2 {
+    margin: 32px 0 12px;
+    font-size: 1.2rem;
+}
+
+.tabla-contenedor {
+    overflow-x: auto;
+    border: 1px solid #e4e7eb;
+    border-radius: 8px;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.tabla th,
+.tabla td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e4e7eb;
+    white-space: nowrap;
+}
+
+.tabla thead th {
+    background: #e6efff;
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.tabla tbody tr:last-child td {
+    border-bottom: none;
+}
