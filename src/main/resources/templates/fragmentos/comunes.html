@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--
+  Fragmentos compartidos por todas las vistas.
+  Uso: th:replace="~{fragmentos/comunes :: cabeza('Título')}"
+-->
+<head th:fragment="cabeza(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="'BlogCode · ' + ${titulo}">BlogCode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+<!-- Barra superior. 'activo' marca el enlace de la vista actual. -->
+<nav class="barra" th:fragment="barra(activo)">
+    <a class="marca" th:href="@{/}">Blog<span>Code</span></a>
+
+    <div class="barra-enlaces">
+        <a class="barra-enlace" th:href="@{/admin}"
+           th:classappend="${activo == 'admin'} ? ' activo'"
+           sec:authorize="hasRole('ADMIN')">Panel admin</a>
+        <a class="barra-enlace" th:href="@{/author}"
+           th:classappend="${activo == 'author'} ? ' activo'"
+           sec:authorize="hasRole('AUTHOR')">Panel autor</a>
+        <a class="barra-enlace" th:href="@{/user}"
+           th:classappend="${activo == 'user'} ? ' activo'"
+           sec:authorize="hasRole('USER')">Publicaciones</a>
+    </div>
+
+    <div class="barra-sesion">
+        <span class="barra-usuario">
+            &gt; <strong sec:authentication="name">usuario</strong>
+        </span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="boton boton-secundario boton-chico">Cerrar sesión</button>
+        </form>
+    </div>
+</nav>
+
+<footer class="pie" th:fragment="pie">
+    BLOGCODE · SPRING BOOT + THYMELEAF
+</footer>
+
+</body>
+</html>

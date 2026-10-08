@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BlogCode - Usuario</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
-</head>
+<head th:replace="~{fragmentos/comunes :: cabeza('Publicaciones')}"></head>
 <body>
-<main class="tarjeta">
-    <span class="insignia">USER</span>
-    <h1>Usuario</h1>
-    <p>Estás en la vista de Usuario.</p>
-    <p>Sesión iniciada como <strong th:text="${usuario}">usuario</strong></p>
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="boton">Cerrar sesión</button>
-    </form>
+<nav th:replace="~{fragmentos/comunes :: barra('user')}"></nav>
+
+<main class="contenido">
+    <header class="encabezado">
+        <div>
+            <span class="insignia">User</span>
+            <h1>Últimas publicaciones</h1>
+            <p>Todo lo que se publicó en el blog, de lo más reciente a lo más antiguo.</p>
+        </div>
+        <p class="sutil">Sesión iniciada como <strong class="mono" th:text="${usuario}">usuario</strong></p>
+    </header>
+
+    <p class="vacio" th:if="${#lists.isEmpty(posts)}">Todavía no hay publicaciones para leer.</p>
+
+    <section class="feed" th:unless="${#lists.isEmpty(posts)}">
+        <article class="publicacion" th:each="p : ${posts}">
+            <div class="publicacion-meta">
+                <span class="autor" th:text="${p.authorFullName} ?: 'Autor desconocido'">Ada Lovelace</span>
+                <span>·</span>
+                <span th:text="${p.publicationDate} ?: 'sin fecha'">2026-01-01</span>
+                <span>·</span>
+                <span th:text="'#' + ${p.id}">#1</span>
+            </div>
+            <h3 th:text="${p.title}">Título de la publicación</h3>
+            <p class="publicacion-contenido"
+               th:text="${#strings.abbreviate(p.content, 320)}">Contenido de la publicación…</p>
+        </article>
+    </section>
 </main>
+
+<footer th:replace="~{fragmentos/comunes :: pie}"></footer>
+
 </body>
 </html>

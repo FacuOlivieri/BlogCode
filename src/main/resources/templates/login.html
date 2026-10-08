@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BlogCode - Iniciar sesión</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
-</head>
+<head th:replace="~{fragmentos/comunes :: cabeza('Iniciar sesión')}"></head>
 <body>
-<main class="tarjeta">
-    <h1>Iniciar sesión</h1>
-    <p>Estás en la vista de inicio de sesión.</p>
 
-    <p class="mensaje error" th:if="${param.error}">Usuario o contraseña incorrectos.</p>
-    <p class="mensaje info" th:if="${param.logout}">Cerraste sesión correctamente.</p>
-    <p class="mensaje error" th:if="${param.sinRol}">Tu usuario no tiene un rol asignado.</p>
+<main class="contenido pagina-centrada">
+    <section class="tarjeta tarjeta-angosta tarjeta-luz">
+        <span class="insignia">Acceso</span>
+        <h1>Iniciar sesión</h1>
+        <p class="sutil">Ingresá tus credenciales para entrar al panel.</p>
 
-    <form th:action="@{/login}" method="post">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" name="username" autocomplete="username" required autofocus>
+        <p class="mensaje error" th:if="${param.error}">Usuario o contraseña incorrectos.</p>
+        <p class="mensaje info" th:if="${param.logout}">Cerraste sesión correctamente.</p>
+        <p class="mensaje error" th:if="${param.sinRol}">Tu usuario no tiene un rol asignado.</p>
 
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" autocomplete="current-password" required>
+        <form th:action="@{/login}" method="post">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" placeholder="tu_usuario"
+                   autocomplete="username" required autofocus>
 
-        <button type="submit" class="boton">Ingresar</button>
-    </form>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" placeholder="••••••••"
+                   autocomplete="current-password" required>
+
+            <button type="submit" class="boton boton-bloque">Ingresar</button>
+        </form>
+    </section>
 </main>
+
+<footer th:replace="~{fragmentos/comunes :: pie}"></footer>
+
 </body>
 </html>

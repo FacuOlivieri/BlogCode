@@ -1,6 +1,8 @@
 package com.todocodeacademy.BlogCode.controller.web;
 
+import com.todocodeacademy.BlogCode.service.IAuthorService;
 import com.todocodeacademy.BlogCode.service.IPermissionService;
+import com.todocodeacademy.BlogCode.service.IPostService;
 import com.todocodeacademy.BlogCode.service.IRoleService;
 import com.todocodeacademy.BlogCode.service.IUserSecService;
 import org.springframework.security.core.Authentication;
@@ -14,13 +16,19 @@ public class AdminVistaController {
     private final IUserSecService userSecService;
     private final IRoleService roleService;
     private final IPermissionService permissionService;
+    private final IAuthorService authorService;
+    private final IPostService postService;
 
     public AdminVistaController(IUserSecService userSecService,
                                 IRoleService roleService,
-                                IPermissionService permissionService) {
+                                IPermissionService permissionService,
+                                IAuthorService authorService,
+                                IPostService postService) {
         this.userSecService = userSecService;
         this.roleService = roleService;
         this.permissionService = permissionService;
+        this.authorService = authorService;
+        this.postService = postService;
     }
 
     @GetMapping("/admin")
@@ -38,6 +46,8 @@ public class AdminVistaController {
         model.addAttribute("usuarios", userSecService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("permisos", permissionService.findAll());
+        model.addAttribute("autores", authorService.findAll());
+        model.addAttribute("posts", PostsOrdenados.recientesPrimero(postService.findAll()));
     }
 
 }

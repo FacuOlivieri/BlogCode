@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BlogCode - Autor</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
-</head>
+<head th:replace="~{fragmentos/comunes :: cabeza('Autor')}"></head>
 <body>
-<main class="tarjeta">
-    <span class="insignia">AUTHOR</span>
-    <h1>Autor</h1>
-    <p>Estás en la vista de Autor.</p>
-    <p>Sesión iniciada como <strong th:text="${usuario}">usuario</strong></p>
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="boton">Cerrar sesión</button>
-    </form>
+<nav th:replace="~{fragmentos/comunes :: barra('author')}"></nav>
+
+<main class="contenido">
+    <header class="encabezado">
+        <div>
+            <span class="insignia">Author</span>
+            <h1>Panel de autor</h1>
+            <p>Seguimiento de las publicaciones y autores del blog.</p>
+        </div>
+        <p class="sutil">Sesión iniciada como <strong class="mono" th:text="${usuario}">usuario</strong></p>
+    </header>
+
+    <section class="rejilla-metricas">
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(posts)}">0</span>
+            <span class="metrica-etiqueta">Publicaciones</span>
+        </article>
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(autores)}">0</span>
+            <span class="metrica-etiqueta">Autores</span>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Publicaciones</h2>
+            <span class="contador" th:text="${#lists.size(posts)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(posts)}">Todavía no hay publicaciones.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(posts)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Título</th><th>Autor</th><th>Publicado</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${posts}">
+                    <td class="col-id" th:text="${p.id}">1</td>
+                    <td class="col-ancha" th:text="${p.title}">Título del post</td>
+                    <td th:text="${p.authorFullName}">Ada Lovelace</td>
+                    <td class="mono" th:text="${p.publicationDate} ?: '—'">2026-01-01</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Autores</h2>
+            <span class="contador" th:text="${#lists.size(autores)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(autores)}">Todavía no hay autores.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(autores)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${autores}">
+                    <td class="col-id" th:text="${a.id}">1</td>
+                    <td th:text="${a.name}">Ada</td>
+                    <td th:text="${a.lastName}">Lovelace</td>
+                    <td class="mono" th:text="${a.email}">ada@blogcode.dev</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </main>
+
+<footer th:replace="~{fragmentos/comunes :: pie}"></footer>
+
 </body>
 </html>

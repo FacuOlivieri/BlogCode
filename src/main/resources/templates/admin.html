@@ -1,48 +1,80 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BlogCode - Administrador</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
-</head>
-<body class="pagina-larga">
-<main class="tarjeta tarjeta-ancha">
+<head th:replace="~{fragmentos/comunes :: cabeza('Administrador')}"></head>
+<body>
+
+<nav th:replace="~{fragmentos/comunes :: barra('admin')}"></nav>
+
+<main class="contenido">
     <header class="encabezado">
         <div>
-            <span class="insignia">ADMIN</span>
-            <h1>Administrador</h1>
-            <p>Estás en la vista de Administrador.</p>
-            <p>Sesión iniciada como <strong th:text="${usuario}">usuario</strong></p>
+            <span class="insignia">Admin</span>
+            <h1>Panel de administración</h1>
+            <p>Control total sobre usuarios, roles, autores y publicaciones.</p>
         </div>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="boton boton-secundario">Cerrar sesión</button>
-        </form>
+        <p class="sutil">Sesión iniciada como <strong class="mono" th:text="${usuario}">usuario</strong></p>
     </header>
 
-    <section>
-        <h2>Usuarios</h2>
-        <p class="mensaje info" th:if="${#lists.isEmpty(usuarios)}">No hay usuarios cargados.</p>
+    <section class="rejilla-metricas">
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(usuarios)}">0</span>
+            <span class="metrica-etiqueta">Usuarios</span>
+        </article>
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(roles)}">0</span>
+            <span class="metrica-etiqueta">Roles</span>
+        </article>
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(permisos)}">0</span>
+            <span class="metrica-etiqueta">Permisos</span>
+        </article>
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(autores)}">0</span>
+            <span class="metrica-etiqueta">Autores</span>
+        </article>
+        <article class="metrica">
+            <span class="metrica-valor" th:text="${#lists.size(posts)}">0</span>
+            <span class="metrica-etiqueta">Publicaciones</span>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Usuarios</h2>
+            <span class="contador" th:text="${#lists.size(usuarios)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(usuarios)}">Sin usuarios cargados.</p>
         <div class="tabla-contenedor" th:unless="${#lists.isEmpty(usuarios)}">
             <table class="tabla">
                 <thead>
-                <tr><th>ID</th><th>Usuario</th><th>Habilitado</th><th>Roles</th></tr>
+                <tr><th>ID</th><th>Usuario</th><th>Estado</th><th>Roles</th></tr>
                 </thead>
                 <tbody>
                 <tr th:each="u : ${usuarios}">
-                    <td th:text="${u.id}">1</td>
+                    <td class="col-id" th:text="${u.id}">1</td>
                     <td th:text="${u.username}">usuario</td>
-                    <td th:text="${u.enabled} ? 'Sí' : 'No'">Sí</td>
-                    <td th:text="${#strings.setJoin(u.roles, ', ')}">ADMIN</td>
+                    <td>
+                        <span class="insignia" th:if="${u.enabled}">Activo</span>
+                        <span class="insignia insignia-apagada" th:unless="${u.enabled}">Inactivo</span>
+                    </td>
+                    <td>
+                        <div class="etiquetas">
+                            <span class="etiqueta" th:each="rol : ${u.roles}" th:text="${rol}">ADMIN</span>
+                            <span class="sutil" th:if="${#sets.isEmpty(u.roles)}">—</span>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <section>
-        <h2>Roles</h2>
-        <p class="mensaje info" th:if="${#lists.isEmpty(roles)}">No hay roles cargados.</p>
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Roles</h2>
+            <span class="contador" th:text="${#lists.size(roles)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(roles)}">Sin roles cargados.</p>
         <div class="tabla-contenedor" th:unless="${#lists.isEmpty(roles)}">
             <table class="tabla">
                 <thead>
@@ -50,18 +82,26 @@
                 </thead>
                 <tbody>
                 <tr th:each="r : ${roles}">
-                    <td th:text="${r.id}">1</td>
+                    <td class="col-id" th:text="${r.id}">1</td>
                     <td th:text="${r.role}">ADMIN</td>
-                    <td th:text="${#strings.setJoin(r.permissions, ', ')}">READ</td>
+                    <td>
+                        <div class="etiquetas">
+                            <span class="etiqueta" th:each="permiso : ${r.permissions}" th:text="${permiso}">READ</span>
+                            <span class="sutil" th:if="${#sets.isEmpty(r.permissions)}">—</span>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <section>
-        <h2>Permisos</h2>
-        <p class="mensaje info" th:if="${#lists.isEmpty(permisos)}">No hay permisos cargados.</p>
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Permisos</h2>
+            <span class="contador" th:text="${#lists.size(permisos)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(permisos)}">Sin permisos cargados.</p>
         <div class="tabla-contenedor" th:unless="${#lists.isEmpty(permisos)}">
             <table class="tabla">
                 <thead>
@@ -69,13 +109,62 @@
                 </thead>
                 <tbody>
                 <tr th:each="p : ${permisos}">
-                    <td th:text="${p.id}">1</td>
-                    <td th:text="${p.permissionName}">READ</td>
+                    <td class="col-id" th:text="${p.id}">1</td>
+                    <td><span class="etiqueta" th:text="${p.permissionName}">READ</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Autores</h2>
+            <span class="contador" th:text="${#lists.size(autores)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(autores)}">Sin autores cargados.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(autores)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${autores}">
+                    <td class="col-id" th:text="${a.id}">1</td>
+                    <td th:text="${a.name}">Ada</td>
+                    <td th:text="${a.lastName}">Lovelace</td>
+                    <td class="mono" th:text="${a.email}">ada@blogcode.dev</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-cabecera">
+            <h2>Publicaciones</h2>
+            <span class="contador" th:text="${#lists.size(posts)} + ' registros'">0 registros</span>
+        </div>
+        <p class="vacio" th:if="${#lists.isEmpty(posts)}">Sin publicaciones cargadas.</p>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(posts)}">
+            <table class="tabla">
+                <thead>
+                <tr><th>ID</th><th>Título</th><th>Autor</th><th>Publicado</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${posts}">
+                    <td class="col-id" th:text="${p.id}">1</td>
+                    <td class="col-ancha" th:text="${p.title}">Título del post</td>
+                    <td th:text="${p.authorFullName}">Ada Lovelace</td>
+                    <td class="mono" th:text="${p.publicationDate} ?: '—'">2026-01-01</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
 </main>
+
+<footer th:replace="~{fragmentos/comunes :: pie}"></footer>
+
 </body>
 </html>
